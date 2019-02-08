@@ -7,6 +7,6 @@ public class GameController : MonoBehaviourPunCallbacks {
     public GameObject player;
     void Start()
     {
-         PhotonNetwork.Instantiate("Prefabs/" + player.name, Vector3.zero, Quaternion.identity, 0);
+        GameObject itsAMe = PhotonNetwork.Instantiate("Prefabs/" + player.name, Vector3.zero, Quaternion.identity, 0);
     }
 }
