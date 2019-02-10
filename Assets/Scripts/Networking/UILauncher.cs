@@ -43,9 +43,10 @@ public class UILauncher : MonoBehaviourPunCallbacks {
 
         for(int i = 0; i < roomList.Count; i++) {
             GameObject button = Instantiate(roomInfoButton);
+            string roomName = roomList[i].Name;
+
             button.transform.SetParent(transform);
             button.GetComponent<RectTransform>().localPosition = new Vector3(-100, 200 - i * 60, 1);
-            string roomName = roomList[i].Name;
             button.transform.Find("Text").GetComponent<Text>().text = roomName + "\n" + roomList[i].PlayerCount + "/4";
             button.GetComponent<Button>().onClick.AddListener(() => ConnectToRoom(roomName));
         }
