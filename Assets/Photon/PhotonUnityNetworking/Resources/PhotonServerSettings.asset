@@ -34,5 +34,6 @@ MonoBehaviour:
   - RespawnSpaceship
   - Thing
   - ThingTwo
+  - SetBaseColor
   DisableAutoOpenWizard: 1
   ShowSettings: 0
