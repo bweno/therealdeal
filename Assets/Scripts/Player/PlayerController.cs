@@ -5,7 +5,10 @@ using Photon.Pun;
 
 public class PlayerController : MonoBehaviourPunCallbacks {
     public float speed = 10;
-    public GameObject model; 
+    public GameObject model;
+    public float shotCooldown = 0.3f;
+    public Transform barrel;
+    private float shotTimer = 0; 
 
     void Start() {
         if(!photonView.IsMine) {
@@ -21,6 +24,7 @@ public class PlayerController : MonoBehaviourPunCallbacks {
         if (photonView.IsMine) {
             Move();
             Look();
+            Shoot();
         }
     }
 
@@ -38,6 +42,18 @@ public class PlayerController : MonoBehaviourPunCallbacks {
         Vector3 lookVector =  new Vector3(Screen.width / 2, 0, Screen.height / 2);
         lookVector = new Vector3(Input.mousePosition.x, 0, Input.mousePosition.y) - lookVector;
         model.transform.forward = lookVector;
+    }
+
+    private void Shoot() {
+        if(Input.GetMouseButton(0) && shotTimer < 0) {
+            shotTimer = shotCooldown;
+            RaycastHit hit;
+            if(Physics.Raycast(barrel.position, barrel.forward, out hit)) {
+                Quaternion rot = Quaternion.FromToRotation(transform.up, hit.normal);
+                PhotonNetwork.Instantiate("Prefabs/ShotHit", hit.point + hit.normal * 0.01f, rot);
+            }
+        }
+        shotTimer -= Time.deltaTime;
     }
 
     [PunRPC]
